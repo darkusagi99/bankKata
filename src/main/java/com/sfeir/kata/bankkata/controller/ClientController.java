@@ -2,7 +2,6 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.ClientDto;
 import com.sfeir.kata.bankkata.service.ClientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,11 @@ import java.util.List;
 @RequestMapping(value = "/client")
 public class ClientController {
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
+
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     // Get allClient information
     @GetMapping

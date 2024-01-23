@@ -2,7 +2,6 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.AccountDto;
 import com.sfeir.kata.bankkata.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/account")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     // Get information for one account
     @GetMapping(value = "/{accountId}")

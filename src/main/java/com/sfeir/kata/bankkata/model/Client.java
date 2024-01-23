@@ -1,13 +1,11 @@
 package com.sfeir.kata.bankkata.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "T_CLIENT")
 public class Client {
 
     @Id
@@ -19,6 +17,10 @@ public class Client {
     public String firstname;
     @Column(nullable = false)
     public LocalDate birthdate;
+
+    public Client() {
+
+    }
 
     public void setAddress(String address) {
         this.address = address;

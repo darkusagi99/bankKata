@@ -1,11 +1,9 @@
 package com.sfeir.kata.bankkata.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "T_USER")
 public class User {
 
     @Id
@@ -16,6 +14,10 @@ public class User {
     public String passwordHash;
     @Column(nullable = false)
     public String role;
+
+    public User() {
+
+    }
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;

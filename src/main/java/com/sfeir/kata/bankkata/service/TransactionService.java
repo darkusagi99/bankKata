@@ -5,7 +5,6 @@ import com.sfeir.kata.bankkata.model.Account;
 import com.sfeir.kata.bankkata.model.Transaction;
 import com.sfeir.kata.bankkata.repository.AccountRepository;
 import com.sfeir.kata.bankkata.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,20 +15,24 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionService {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
+
+    private final AccountRepository accountRepository;
+
+    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+        this.transactionRepository = transactionRepository;
+        this.accountRepository = accountRepository;
+    }
 
     // CRUD action - No DELETE, no UPDATE
-    public TransactionDto createTransaction(@RequestParam long clientId, @RequestParam long accountId, @RequestParam float value, @RequestParam(required = false) String label) {
+    public TransactionDto createTransaction(@RequestParam long clientId, @RequestParam long accountId, @RequestParam float transactionValue, @RequestParam(required = false) String label) {
 
         // Check Client and account matching
         Account currentAccount = accountRepository.findAccountByAccountIdAndClientId(accountId, clientId);
 
         if (currentAccount != null) {
-        Transaction.TransactionBuilder builder = new Transaction.TransactionBuilder(accountId, value);
+        Transaction.TransactionBuilder builder = new Transaction.TransactionBuilder(accountId, transactionValue);
         builder.setLabel(label);
 
         Transaction newTransaction = new Transaction(builder);

@@ -3,7 +3,6 @@ package com.sfeir.kata.bankkata.service;
 import com.sfeir.kata.bankkata.dto.AccountDto;
 import com.sfeir.kata.bankkata.model.Account;
 import com.sfeir.kata.bankkata.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+
+    private final AccountRepository accountRepository;
+
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     // CRUD actions - No DELETE - Legal part
     /** Create account */

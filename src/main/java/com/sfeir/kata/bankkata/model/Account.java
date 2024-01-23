@@ -1,14 +1,12 @@
 package com.sfeir.kata.bankkata.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
 /** Bank account */
 @Entity
+@Table(name = "T_ACCOUNT")
 public class Account {
 
     @Id
@@ -29,6 +27,10 @@ public class Account {
         this.clientId = builder.clientId;
         this.accountNumber = generateAccountNumber();
         this.currentBalance = 0;
+
+    }
+
+    public Account() {
 
     }
 

@@ -1,13 +1,11 @@
 package com.sfeir.kata.bankkata.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "T_TRANSACTION")
 public class Transaction {
 
     @Id
@@ -16,7 +14,7 @@ public class Transaction {
     @Column(nullable = false)
     public Long accountId;
     @Column(nullable = false)
-    public float value;
+    public Float transactionValue;
     @Column(nullable = false)
     public LocalDateTime date;
     @Column(nullable = false)
@@ -24,21 +22,25 @@ public class Transaction {
 
     public Transaction(TransactionBuilder builder) {
         this.accountId = builder.accountId;
-        this.value = builder.value;
+        this.transactionValue = builder.transactionValue;
         this.label = builder.label;
 
         this.date = LocalDateTime.now();
 
     }
 
+    public Transaction() {
+
+    }
+
     public static class TransactionBuilder {
         private final Long accountId;
-        private final float value;
+        private final Float transactionValue;
         private String label;
 
-        public TransactionBuilder(Long accountId, float value) {
+        public TransactionBuilder(Long accountId, Float transactionValue) {
             this.accountId = accountId;
-            this.value = value;
+            this.transactionValue = transactionValue;
         }
 
         public void setLabel(String label) {

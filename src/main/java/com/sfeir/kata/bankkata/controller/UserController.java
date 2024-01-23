@@ -2,7 +2,6 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.UserDto;
 import com.sfeir.kata.bankkata.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Create a new user
     @PutMapping
@@ -22,9 +24,8 @@ public class UserController {
 
     // Delete a user
     @DeleteMapping(value = "/{userId}")
-    public UserDto deleteUser(@PathVariable Long userId) {
-
-        return userService.deleteUser(userId);
+    public void deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
     }
 
 

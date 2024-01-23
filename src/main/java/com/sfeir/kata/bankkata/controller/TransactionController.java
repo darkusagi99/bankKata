@@ -2,7 +2,6 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.TransactionDto;
 import com.sfeir.kata.bankkata.service.TransactionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,11 @@ import java.util.List;
 @RequestMapping(value = "/transactions")
 public class TransactionController {
 
-    @Autowired
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
+
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
     /** Extract one transaction - From ID */
     @GetMapping(value = "/{transactionId}")
@@ -29,8 +31,8 @@ public class TransactionController {
 
     /** Create a new transaction */
     @PutMapping
-    public TransactionDto createTransaction(@RequestParam long clientId, @RequestParam long accountId, @RequestParam float value, @RequestParam(required = false) String label) {
-        return transactionService.createTransaction(clientId, accountId, value, label);
+    public TransactionDto createTransaction(@RequestParam long clientId, @RequestParam long accountId, @RequestParam float transactionValue, @RequestParam(required = false) String label) {
+        return transactionService.createTransaction(clientId, accountId, transactionValue, label);
     }
 
 }

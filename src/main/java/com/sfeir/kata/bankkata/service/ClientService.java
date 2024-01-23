@@ -6,7 +6,6 @@ import com.sfeir.kata.bankkata.model.Account;
 import com.sfeir.kata.bankkata.model.Client;
 import com.sfeir.kata.bankkata.repository.AccountRepository;
 import com.sfeir.kata.bankkata.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,11 +20,16 @@ import java.util.stream.Collectors;
 @Service
 public class ClientService {
 
-    @Autowired
-    private ClientRepository clientRepository;
 
-    @Autowired
-    private AccountRepository accountRepository;
+    private final ClientRepository clientRepository;
+
+
+    private final AccountRepository accountRepository;
+
+    public ClientService(ClientRepository clientRepository, AccountRepository accountRepository) {
+        this.clientRepository = clientRepository;
+        this.accountRepository = accountRepository;
+    }
 
     // CRUD actions - No Delete
     /** Create client */
@@ -68,12 +72,12 @@ public class ClientService {
     public ClientDto getClientAccount(Long clientId) {
 
         Client currentClient = clientRepository.findClientByClientId(clientId);
-        List<AccountDto> accountDtoList = null;
+        List<AccountDto> accountDtoList;
 
         if (currentClient != null) {
             List<Account> accountList = accountRepository.findAccountsByClientId(clientId);
             accountDtoList = accountList.stream().map(AccountDto::new).collect(Collectors.toList());
-            new ClientDto(currentClient, accountDtoList);
+            return new ClientDto(currentClient, accountDtoList);
         }
 
         return null;

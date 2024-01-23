@@ -5,7 +5,6 @@ import com.sfeir.kata.bankkata.model.Client;
 import com.sfeir.kata.bankkata.model.User;
 import com.sfeir.kata.bankkata.repository.ClientRepository;
 import com.sfeir.kata.bankkata.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,14 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
+
+    public UserService(UserRepository userRepository, ClientRepository clientRepository) {
+        this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
+    }
 
     public UserDto createUser(String role, String password) {
 
@@ -33,11 +35,9 @@ public class UserService {
 
     // Delete a user
 
-    public UserDto deleteUser(Long userId) {
-
+    public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
 
-        return null;
     }
 
 
