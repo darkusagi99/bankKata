@@ -16,9 +16,9 @@ public class UserController {
 
     // Create a new user
     @PutMapping
-    public UserDto createUser(String role, String password) {
+    public UserDto createUser(String username, String role, String password) {
 
-        return userService.createUser(role, password);
+        return userService.createUser(username, role, password);
     }
 
     // Delete a user

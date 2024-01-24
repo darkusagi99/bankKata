@@ -11,6 +11,9 @@ public class User {
     public Long userId;
 
     @Column(nullable = false)
+    public String username;
+
+    @Column(nullable = false)
     public String passwordHash;
     @Column(nullable = false)
     public String role;
@@ -35,7 +38,7 @@ public class User {
     public Long clientId;
 
     public User(UserBuilder builder) {
-
+        this.username = builder.username;
         this.passwordHash = builder.passwordHash;
         this.role = builder.role;
         this.clientId = builder.clientId;
@@ -50,7 +53,10 @@ public class User {
 
         private Long clientId;
 
-        public UserBuilder(String passwordHash, String role) {
+        private String username;
+
+        public UserBuilder(String username, String passwordHash, String role) {
+            this.username = username;
             this.passwordHash = passwordHash;
             this.role = role;
         }

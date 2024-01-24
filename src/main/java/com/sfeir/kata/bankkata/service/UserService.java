@@ -5,8 +5,11 @@ import com.sfeir.kata.bankkata.model.Client;
 import com.sfeir.kata.bankkata.model.User;
 import com.sfeir.kata.bankkata.repository.ClientRepository;
 import com.sfeir.kata.bankkata.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /** Class for user information */
@@ -22,9 +25,13 @@ public class UserService {
         this.clientRepository = clientRepository;
     }
 
-    public UserDto createUser(String role, String password) {
+    public UserDto createUser(String username, String role, String password) {
 
-        User.UserBuilder builder = new User.UserBuilder(password, role);
+
+        // Calculate password hash
+        String passwordHash = this.generatePasswordHash(password);
+
+        User.UserBuilder builder = new User.UserBuilder(username, passwordHash, role);
         User newUser = new User(builder);
 
         userRepository.save(newUser);
@@ -86,8 +93,7 @@ public class UserService {
         if (currentUser.isPresent()) {
 
             // Calculate password hash
-            //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String passwordHash = ""; //passwordEncoder.encode(newPassword);
+            String passwordHash = this.generatePasswordHash(newPassword);
 
             User tmpUser = currentUser.get();
             tmpUser.setPasswordHash(passwordHash);
@@ -97,6 +103,19 @@ public class UserService {
         }
 
         return null;
+    }
+
+
+    private String generatePasswordHash(String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(newPassword);
+    }
+
+    public List<User> getUserList() {
+        List<User> userList = new ArrayList<>();
+        userRepository.findAll().forEach(userList::add);
+
+        return userList;
     }
 
 
