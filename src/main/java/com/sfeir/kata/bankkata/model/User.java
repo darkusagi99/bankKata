@@ -53,7 +53,7 @@ public class User {
 
         private Long clientId;
 
-        private String username;
+        private final String username;
 
         public UserBuilder(String username, String passwordHash, String role) {
             this.username = username;

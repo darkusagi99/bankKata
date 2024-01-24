@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -42,27 +45,21 @@ public class WebSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
 
-        /*List<com.sfeir.kata.bankkata.model.User> userList = userService.getUserList();
+        List<com.sfeir.kata.bankkata.model.User> userList = userService.getUserList();
 
         List<UserDetails> securityUserList = userList.stream().map(DbUser -> User.builder()
                                 .username(DbUser.username)
                                 .password(DbUser.passwordHash)
                 .build()
-        ).collect(Collectors.toList());*/
+        ).collect(Collectors.toList());
 
-        UserDetails user =
-                User.builder()
-                        .username("user")
-                        .password("$2a$10$Ht03BRszKTkCS21iAIrJDO9mziv1PjMPI9nneh0WBeJnbAUia11cW")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
+        return new InMemoryUserDetailsManager(securityUserList);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }
