@@ -24,7 +24,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private UserService userService;
+    private final UserService userService;
 
     public WebSecurityConfig(UserService userService) {
         this.userService = userService;
