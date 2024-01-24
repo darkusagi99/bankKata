@@ -2,12 +2,11 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.TransactionDto;
 import com.sfeir.kata.bankkata.service.TransactionService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/transactions")
 public class TransactionController {
 

@@ -6,7 +6,9 @@ import com.sfeir.kata.bankkata.model.Account;
 import com.sfeir.kata.bankkata.model.Client;
 import com.sfeir.kata.bankkata.repository.AccountRepository;
 import com.sfeir.kata.bankkata.repository.ClientRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -65,13 +67,17 @@ public class ClientService {
     /** Get client information */
     public ClientDto getClient(Long clientId) {
 
-        return new ClientDto(clientRepository.findClientByClientId(clientId));
+        return new ClientDto(clientRepository.findClientByClientId(clientId)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "No Client Found")));
     }
 
     /** Get client and account Information */
     public ClientDto getClientAccount(Long clientId) {
 
-        Client currentClient = clientRepository.findClientByClientId(clientId);
+        Client currentClient = clientRepository.findClientByClientId(clientId)
+                                    .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                    "No Client Found"));
         List<AccountDto> accountDtoList;
 
         if (currentClient != null) {

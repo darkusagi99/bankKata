@@ -5,7 +5,6 @@ import com.sfeir.kata.bankkata.model.Client;
 import com.sfeir.kata.bankkata.model.User;
 import com.sfeir.kata.bankkata.repository.ClientRepository;
 import com.sfeir.kata.bankkata.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -87,8 +86,8 @@ public class UserService {
         if (currentUser.isPresent()) {
 
             // Calculate password hash
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String passwordHash = passwordEncoder.encode(newPassword);
+            //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String passwordHash = ""; //passwordEncoder.encode(newPassword);
 
             User tmpUser = currentUser.get();
             tmpUser.setPasswordHash(passwordHash);

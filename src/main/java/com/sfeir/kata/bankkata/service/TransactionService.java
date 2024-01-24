@@ -3,7 +3,6 @@ package com.sfeir.kata.bankkata.service;
 import com.sfeir.kata.bankkata.dto.TransactionDto;
 import com.sfeir.kata.bankkata.model.Account;
 import com.sfeir.kata.bankkata.model.Transaction;
-import com.sfeir.kata.bankkata.repository.AccountRepository;
 import com.sfeir.kata.bankkata.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,27 +17,33 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
 
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+    public TransactionService(TransactionRepository transactionRepository, AccountService accountService) {
         this.transactionRepository = transactionRepository;
-        this.accountRepository = accountRepository;
+        this.accountService = accountService;
     }
 
     // CRUD action - No DELETE, no UPDATE
     public TransactionDto createTransaction(@RequestParam long clientId, @RequestParam long accountId, @RequestParam float transactionValue, @RequestParam(required = false) String label) {
 
         // Check Client and account matching
-        Account currentAccount = accountRepository.findAccountByAccountIdAndClientId(accountId, clientId);
+        Account currentAccount = accountService.getClientAccount(accountId, clientId);
 
         if (currentAccount != null) {
         Transaction.TransactionBuilder builder = new Transaction.TransactionBuilder(accountId, transactionValue);
         builder.setLabel(label);
 
+        // Create transaction
         Transaction newTransaction = new Transaction(builder);
         transactionRepository.save(newTransaction);
 
+        // Update account balance
+        accountService.updateBalance(accountId, transactionValue);
+
         return new TransactionDto(newTransaction);
+
+
         } else {
             return null;
         }

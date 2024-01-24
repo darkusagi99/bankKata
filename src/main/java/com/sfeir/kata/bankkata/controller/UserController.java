@@ -2,11 +2,10 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.UserDto;
 import com.sfeir.kata.bankkata.service.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(value = "/user")
+@RestController
+@RequestMapping(value = "/users")
 public class UserController {
 
     private final UserService userService;

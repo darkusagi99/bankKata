@@ -2,14 +2,13 @@ package com.sfeir.kata.bankkata.controller;
 
 import com.sfeir.kata.bankkata.dto.ClientDto;
 import com.sfeir.kata.bankkata.service.ClientService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
-@RequestMapping(value = "/client")
+@RestController
+@RequestMapping(value = "/clients")
 public class ClientController {
 
     private final ClientService clientService;
